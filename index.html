@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>sisisi.si</title>
+<meta name="description" content="sisisi.si — a six-letter, three-beat domain available to acquire. Make an offer.">
+<meta property="og:title" content="sisisi.si">
+<meta property="og:description" content="A six-letter, three-beat domain available to acquire.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sisisi.si/">
+<link rel="canonical" href="https://sisisi.si/">
+<style>
+/* フォントは同梱。外部CDNに取りに行かないので、ページが開ける環境なら必ず表示される
+   （Google Fonts は中国本土から届かず、<link> がレンダリングを止めるため）。
+   ページに出てくる文字だけに絞ってある — 本文を書き換えたら fonts/ の再生成が要る。
+   詳細と再生成コマンドは README.md を参照。 */
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400;
+             font-display: swap; src: url(fonts/plexmono-400.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 600;
+             font-display: swap; src: url(fonts/plexmono-600.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400;
+             font-display: swap; src: url(fonts/plexsans-400.woff2) format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-style: normal; font-weight: 500;
+             font-display: swap; src: url(fonts/plexsans-500.woff2) format("woff2"); }
+@font-face { font-family: "Noto Sans JP"; font-style: normal; font-weight: 400;
+             font-display: swap; src: url(fonts/notojp-400.woff2) format("woff2"); }
+@font-face { font-family: "Noto Sans JP"; font-style: normal; font-weight: 500;
+             font-display: swap; src: url(fonts/notojp-500.woff2) format("woff2"); }
+@font-face { font-family: "Noto Sans SC"; font-style: normal; font-weight: 400;
+             font-display: swap; src: url(fonts/notosc-400.woff2) format("woff2"); }
+@font-face { font-family: "Noto Sans SC"; font-style: normal; font-weight: 500;
+             font-display: swap; src: url(fonts/notosc-500.woff2) format("woff2"); }
+
+/* Layout: one narrow left-aligned column. The wordmark is the hero; a registry-record
+   block carries the facts; the inquiry form closes the page. */
+:root {
+  --bg:      #f3f5f7;
+  --surface: #ffffff;
+  --fg:      #14181e;
+  --muted:   #5b6472;
+  --rule:    #d7dce3;
+  --accent:  #9a6200;
+
+  /* 既定（英語）では CJK フォントを指名しない。指名するとブラウザが先読みして
+     使いもしない 54KB を落とすため。日本語・中国語を選んだときだけ下で差し替える。 */
+  --cjk: sans-serif;
+
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+               var(--cjk), monospace;
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont,
+               var(--cjk), sans-serif;
+
+  --measure: 34rem;
+
+  color-scheme: light;
+  padding-top:    env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:      #0e1115;
+    --surface: #161b22;
+    --fg:      #e7eaef;
+    --muted:   #949dab;
+    --rule:    #262d37;
+    --accent:  #f2a72c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:      #0e1115;
+  --surface: #161b22;
+  --fg:      #e7eaef;
+  --muted:   #949dab;
+  --rule:    #262d37;
+  --accent:  #f2a72c;
+  color-scheme: dark;
+}
+
+/* 日本語と中国語では同じ漢字でも字形が違うので、選択言語でフォントを入れ替える。
+   lang 属性は言語切り替えのたびに <html> へ書き込まれる。後ろに端末のフォントを
+   残してあるのは、万一 woff2 が落ちてこなかったときの保険。 */
+:root[lang="ja"]   { --cjk: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; }
+:root[lang^="zh"]  { --cjk: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+.wrap {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 2rem 4rem;
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0 3.5rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.langs { display: flex; gap: 2px; }
+.langs button {
+  appearance: none;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  padding: .3rem .6rem;
+  cursor: pointer;
+  margin-inline-start: -1px;
+}
+.langs button:first-child { margin-inline-start: 0; }
+.langs button[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--fg);
+  border-color: var(--fg);
+  position: relative;
+}
+.langs button:hover:not([aria-pressed="true"]) { color: var(--fg); }
+.langs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- hero ---------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.1rem;
+}
+
+.wordmark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 13vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -.035em;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.wordmark .tld { color: var(--accent); }
+
+.beats {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.1rem 0 0;
+}
+
+.lede {
+  max-width: var(--measure);
+  margin: 1.75rem 0 0;
+  font-size: 1.075rem;
+}
+
+/* ---------- registry record ---------- */
+
+.record {
+  margin-block: 3.25rem;
+  border-top: 1px solid var(--rule);
+}
+.record dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 11rem) 1fr;
+}
+.record dt, .record dd {
+  margin: 0;
+  padding-block: .72rem;
+  border-bottom: 1px solid var(--rule);
+  min-width: 0;
+}
+.record dt {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-inline-end: 1rem;
+  align-self: center;
+}
+.record dd {
+  font-family: var(--font-mono);
+  font-size: .92rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: break-word;
+}
+.record dd.price { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 30rem) {
+  .record dl { grid-template-columns: 1fr; }
+  .record dt { padding-block: .72rem .1rem; border-bottom: 0; }
+  .record dd { padding-block: 0 .72rem; }
+}
+
+/* ---------- points ---------- */
+
+.points {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  margin-block: 3.25rem;
+}
+.point h3 {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 .5rem;
+}
+.point p { margin: 0; font-size: .95rem; color: var(--muted); }
+
+/* ---------- form ---------- */
+
+h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  margin: 0 0 .4rem;
+}
+.form-note { margin: 0 0 1.6rem; color: var(--muted); font-size: .95rem; max-width: var(--measure); }
+
+form { max-width: var(--measure); display: grid; gap: 1rem; }
+
+.field { display: grid; gap: .35rem; }
+label {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+input, textarea {
+  font: inherit;
+  font-size: .95rem;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: .6rem .7rem;
+  width: 100%;
+  min-width: 0;
+}
+input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+textarea { resize: vertical; min-height: 7rem; }
+
+button.submit {
+  appearance: none;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--fg);
+  border: 1px solid var(--fg);
+  border-radius: 2px;
+  padding: .75rem 1.3rem;
+  cursor: pointer;
+  justify-self: start;
+}
+button.submit:hover { background: var(--accent); border-color: var(--accent); color: #11140f; }
+button.submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.submit[disabled] { opacity: .55; cursor: default; }
+
+.formstate {
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  padding: .7rem .8rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+}
+
+.setup {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  line-height: 1.6;
+  padding: .8rem .9rem;
+  margin-bottom: 1.4rem;
+  border: 1px dashed var(--accent);
+  color: var(--fg);
+  background: var(--surface);
+}
+.setup code { background: transparent; font-weight: 600; }
+
+/* ---------- footer ---------- */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: .9rem;
+  color: var(--muted);
+}
+footer a { color: var(--fg); text-decoration-color: var(--rule); text-underline-offset: .2em; }
+footer a:hover { text-decoration-color: var(--accent); }
+.former { margin: 0 0 .6rem; }
+.legal { margin: 0; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .langs button, button.submit, input, textarea, footer a { transition: color .15s, background-color .15s, border-color .15s; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="status" data-t="status">Domain for sale</span>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
+      <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
+  </div>
+
+  <header>
+    <p class="eyebrow" data-t="eyebrow">Available to acquire</p>
+    <h1 class="wordmark">sisisi<span class="tld">.si</span></h1>
+    <p class="beats">si &middot; si &middot; si</p>
+    <p class="lede" data-t="lede">Six letters, three identical beats, and a two-letter top-level
+      domain. The whole name is one sound repeated — easy to say on a phone call, easy to
+      remember after hearing it once, and short enough to fit anywhere a name has to fit.</p>
+  </header>
+
+  <section class="record" aria-label="Domain record">
+    <dl>
+      <dt data-t="rec_domain">Domain</dt>
+      <dd>sisisi.si</dd>
+
+      <dt data-t="rec_tld">Top-level domain</dt>
+      <dd>.si &mdash; <span data-t="rec_tld_v">Slovenia</span></dd>
+
+      <dt data-t="rec_len">Length</dt>
+      <dd>6 <span data-t="rec_len_label">(label)</span> / 9 <span data-t="rec_len_full">(with TLD)</span></dd>
+
+      <dt data-t="rec_struct">Structure</dt>
+      <dd>si &times; 3 &mdash; <span data-t="rec_struct_v">one syllable, repeated</span></dd>
+
+      <dt data-t="rec_chars">Characters</dt>
+      <dd data-t="rec_chars_v">a&ndash;z only. No digits, no hyphens.</dd>
+
+      <dt data-t="rec_price">Price</dt>
+      <dd class="price" data-t="rec_price_v">Make an offer</dd>
+    </dl>
+  </section>
+
+  <section class="points">
+    <div class="point">
+      <h3 data-t="p1_h">Said, not spelled</h3>
+      <p data-t="p1_b">One repeated syllable survives being spoken aloud. There is nothing to
+        spell out and nothing to mishear.</p>
+    </div>
+    <div class="point">
+      <h3 data-t="p2_h">Reads in several languages</h3>
+      <p data-t="p2_b">&ldquo;si&rdquo; carries meaning in Spanish and Italian, and the repeated
+        shape stays easy to pronounce in Japanese and Chinese.</p>
+    </div>
+    <div class="point">
+      <h3 data-t="p3_h">Short enough to use</h3>
+      <p data-t="p3_b">Nine characters including the dot. It fits in a handle, a QR code, a
+        business card, or a URL shortener of its own.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="inq">
+    <h2 id="inq" data-t="form_h">Make an offer</h2>
+    <p class="form-note" data-t="form_note">Send a note with your offer and a way to reach you.
+      Enquiries go straight to the owner. No broker, no listing fee.</p>
+
+    <div class="setup" id="setup" hidden>
+      <strong>Setup needed.</strong> Replace <code>FORMSPREE_ID</code> in
+      <code>index.html</code> with your own form ID, or point the form at any endpoint that
+      accepts a POST. This notice only appears while the placeholder is still in place.
+    </div>
+
+    <form id="form" method="POST" novalidate>
+      <div class="field">
+        <label for="name" data-t="f_name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="email" data-t="f_email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="offer" data-t="f_offer">Offer (optional)</label>
+        <input id="offer" name="offer" type="text" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="message" data-t="f_msg">Message</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <input type="hidden" name="_subject" value="sisisi.si — enquiry">
+      <button class="submit" type="submit" data-t="f_send">Send enquiry</button>
+      <p class="formstate" id="formstate" hidden role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <footer>
+    <!-- リンクは data-t の外に出すこと。翻訳は textContent を差し替えるので、
+         中に <a> を入れるとリンクごと消える。 -->
+    <p class="former"><span data-t="former">Looking for the analytics dashboard that used to be
+      here? It moved to</span> <a href="https://livit17.net/">livit17.net</a></p>
+    <p class="legal" data-t="legal">sisisi.si &mdash; privately held, no affiliation with any
+      third party</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Replace with your own Formspree form ID (https://formspree.io) — e.g. "xdkogqwe".
+     Any endpoint that accepts a POST works; see README.md. */
+  var FORMSPREE_ID = "FORMSPREE_ID";
+
+  /* ---------- i18n ----------
+     English lives in the HTML, so the page reads correctly with scripting off.
+     These tables replace it when another language is selected. */
+  var STRINGS = {
+    ja: {
+      status: "ドメイン売却",
+      eyebrow: "お譲りします",
+      lede: "6文字、同じ音の3拍、そして2文字のトップレベルドメイン。名前ぜんたいが一つの音の繰り返しなので、電話で伝えるのも、一度聞いて覚えるのも簡単です。名前を入れる場所がどれだけ狭くても収まります。",
+      rec_domain: "ドメイン",
+      rec_tld: "トップレベルドメイン",
+      rec_tld_v: "スロベニア",
+      rec_len: "文字数",
+      rec_len_label: "（ラベル部）",
+      rec_len_full: "（TLD込み）",
+      rec_struct: "構成",
+      rec_struct_v: "1音の3回繰り返し",
+      rec_chars: "使用文字",
+      rec_chars_v: "a〜zのみ。数字・ハイフンなし。",
+      rec_price: "価格",
+      rec_price_v: "ご相談ください",
+      p1_h: "綴らずに伝わる",
+      p1_b: "同じ音の繰り返しは、声に出しても崩れません。綴りを説明する必要も、聞き間違えられる余地もありません。",
+      p2_h: "複数の言語で読める",
+      p2_b: "「si」はスペイン語とイタリア語で意味を持ち、繰り返しの形は日本語でも中国語でも発音しやすいままです。",
+      p3_h: "実際に使える短さ",
+      p3_b: "ドットを含めて9文字。アカウント名、QRコード、名刺、自前のURL短縮にも収まります。",
+      form_h: "価格をご提示ください",
+      form_note: "ご希望の金額とご連絡先を添えてお送りください。お問い合わせは所有者に直接届きます。仲介業者や掲載手数料はありません。",
+      f_name: "お名前",
+      f_email: "メールアドレス",
+      f_offer: "ご希望額（任意）",
+      f_msg: "ご用件",
+      f_send: "送信する",
+      former: "ここにあった分析ダッシュボードをお探しですか？ 移転先はこちらです：",
+      legal: "sisisi.si — 個人所有。第三者との関係はありません"
+    },
+    zh: {
+      status: "域名出售",
+      eyebrow: "可转让",
+      lede: "六个字母，三个相同的音节，加上两个字母的顶级域名。整个名字就是同一个音的重复——电话里好说，听一次就记得住，再窄的位置也放得下。",
+      rec_domain: "域名",
+      rec_tld: "顶级域名",
+      rec_tld_v: "斯洛文尼亚",
+      rec_len: "长度",
+      rec_len_label: "（主体）",
+      rec_len_full: "（含后缀）",
+      rec_struct: "结构",
+      rec_struct_v: "同一音节重复三次",
+      rec_chars: "字符",
+      rec_chars_v: "仅 a–z。无数字、无连字符。",
+      rec_price: "价格",
+      rec_price_v: "欢迎出价",
+      p1_h: "说出口就行",
+      p1_b: "重复的音节经得起口头传达。不必逐字拼读，也不会听错。",
+      p2_h: "多种语言都好读",
+      p2_b: "“si”在西班牙语和意大利语中都有含义，重复的结构在日语和中文里同样容易发音。",
+      p3_h: "短到真的能用",
+      p3_b: "含点号共九个字符。用作账号名、二维码、名片，或自建短链接都放得下。",
+      form_h: "欢迎出价",
+      form_note: "请留下您的出价和联系方式。咨询将直接发送给所有者。没有中介，也没有挂牌费。",
+      f_name: "姓名",
+      f_email: "邮箱",
+      f_offer: "出价（选填）",
+      f_msg: "留言",
+      f_send: "发送咨询",
+      former: "在找原本这里的数据分析面板吗？已迁移至：",
+      legal: "sisisi.si — 私人持有，与任何第三方无关"
+    }
+  };
+
+  var HTML_LANG = { en: "en", ja: "ja", zh: "zh-Hans" };
+
+  /* Snapshot the English text that ships in the HTML, so EN is restorable. */
+  var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-t]"));
+  var EN = {};
+  nodes.forEach(function (el) { EN[el.getAttribute("data-t")] = el.textContent; });
+
+  var buttons = Array.prototype.slice.call(document.querySelectorAll(".langs button"));
+
+  function apply(lang) {
+    var table = lang === "en" ? EN : STRINGS[lang];
+    if (!table) { return; }
+    nodes.forEach(function (el) {
+      var key = el.getAttribute("data-t");
+      if (Object.prototype.hasOwnProperty.call(table, key)) {
+        el.textContent = table[key];
+      }
+    });
+    document.documentElement.lang = HTML_LANG[lang] || "en";
+    buttons.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === lang));
+    });
+    try { localStorage.setItem("sisisi-lang", lang); } catch (e) { /* private mode */ }
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-lang")); });
+  });
+
+  /* Pick a starting language: a previous choice, else the browser's preference. */
+  var start = null;
+  try { start = localStorage.getItem("sisisi-lang"); } catch (e) { /* ignore */ }
+  if (!start) {
+    var pref = (navigator.languages && navigator.languages[0]) || navigator.language || "en";
+    pref = String(pref).toLowerCase();
+    if (pref.indexOf("ja") === 0) { start = "ja"; }
+    else if (pref.indexOf("zh") === 0) { start = "zh"; }
+  }
+  if (start && start !== "en") { apply(start); }
+
+  /* ---------- form ---------- */
+
+  var form  = document.getElementById("form");
+  var state = document.getElementById("formstate");
+  var setup = document.getElementById("setup");
+  var send  = form.querySelector("button.submit");
+
+  var configured = FORMSPREE_ID !== "FORMSPREE" + "_ID" && FORMSPREE_ID !== "";
+  if (!configured) {
+    setup.hidden = false;
+  } else {
+    form.action = "https://formspree.io/f/" + FORMSPREE_ID;
+  }
+
+  var MSG = {
+    en: { sending: "Sending…", ok: "Thank you. Your enquiry has been sent.",
+          fail: "That didn't send. Please try again in a moment.",
+          invalid: "Please fill in your name, email and message.",
+          unset:   "The form isn't connected yet. See README.md." },
+    ja: { sending: "送信中…", ok: "ありがとうございます。お問い合わせを送信しました。",
+          fail: "送信できませんでした。少し時間をおいて再度お試しください。",
+          invalid: "お名前・メールアドレス・ご用件をご記入ください。",
+          unset:   "フォームが未接続です。README.md をご確認ください。" },
+    zh: { sending: "发送中…", ok: "感谢您的咨询，已成功发送。",
+          fail: "发送失败，请稍后重试。",
+          invalid: "请填写姓名、邮箱和留言。",
+          unset:   "表单尚未连接，请参阅 README.md。" }
+  };
+
+  function current() {
+    var pressed = buttons.filter(function (b) { return b.getAttribute("aria-pressed") === "true"; })[0];
+    return (pressed && pressed.getAttribute("data-lang")) || "en";
+  }
+  function say(key) {
+    state.hidden = false;
+    state.textContent = (MSG[current()] || MSG.en)[key];
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+
+    if (!form.name.value.trim() || !form.email.value.trim() || !form.message.value.trim()) {
+      say("invalid");
+      return;
+    }
+    if (!configured) { say("unset"); return; }
+
+    say("sending");
+    send.disabled = true;
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" }
+    }).then(function (res) {
+      if (!res.ok) { throw new Error("http " + res.status); }
+      form.reset();
+      say("ok");
+    }).catch(function () {
+      say("fail");
+    }).then(function () {
+      send.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
