@@ -307,7 +307,6 @@ footer {
 }
 footer a { color: var(--fg); text-decoration-color: var(--rule); text-underline-offset: .2em; }
 footer a:hover { text-decoration-color: var(--accent); }
-.former { margin: 0 0 .6rem; }
 .legal { margin: 0; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -390,10 +389,6 @@ footer a:hover { text-decoration-color: var(--accent); }
   </section>
 
   <footer>
-    <!-- リンクは data-t の外に出すこと。翻訳は textContent を差し替えるので、
-         中に <a> を入れるとリンクごと消える。 -->
-    <p class="former"><span data-t="former">Looking for the analytics dashboard that used to be
-      here? It moved to</span> <a href="https://livit17.net/">livit17.net</a></p>
     <p class="legal" data-t="legal">sisisi.si &mdash; privately held, no affiliation with any
       third party</p>
   </footer>
@@ -434,7 +429,6 @@ footer a:hover { text-decoration-color: var(--accent); }
       form_h: "価格をご提示ください",
       form_note: "ご希望の金額と、どのような用途でお使いになるかを簡単に添えてメールをお送りください。",
       cta_note: "代金の決済とドメインの移管はエスクローサービスを介して行います。代金はドメインがお客様のアカウントに移るまで保全されます。",
-      former: "ここにあった分析ダッシュボードをお探しですか？ 移転先はこちらです：",
       legal: "sisisi.si — 個人所有。第三者との関係はありません"
     },
     zh: {
@@ -462,7 +456,6 @@ footer a:hover { text-decoration-color: var(--accent); }
       form_h: "欢迎出价",
       form_note: "请将您的出价，以及简要说明您是谁、打算如何使用这个名字，发送邮件给我们。",
       cta_note: "付款与域名过户通过第三方托管服务办理。款项将一直托管，直至域名转入您的账户。",
-      former: "在找原本这里的数据分析面板吗？已迁移至：",
       legal: "sisisi.si — 私人持有，与任何第三方无关"
     }
   };
