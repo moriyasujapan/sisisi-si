@@ -12,23 +12,24 @@ README.md    このファイル
 
 ## 公開までの手順
 
-### 1. フォームを繋ぐ
+### 1. Sedo に掲載する
 
-`index.html` の冒頭付近にある `FORMSPREE_ID` を自分のフォーム ID に差し替える。
+ページの問い合わせ導線は **Sedo**（ドメイン売買の仲介サービス）へのリンクになっている。
+リンク先はこの形式で、`sisisi.si` を Sedo に掲載すればそのまま有効になる。
 
-```js
-var FORMSPREE_ID = "FORMSPREE_ID";   // ← ここを差し替える
+```
+https://sedo.com/search/details/?domain=sisisi.si&language=e
 ```
 
-[Formspree](https://formspree.io) で無料アカウントを作ると `xdkogqwe` のような ID が発行される。
-差し替えるまでページ上に「Setup needed」の注意書きが出るので、忘れていればすぐわかる。
+掲載前でも Sedo の検索結果ページが開くだけでエラーにはならないが、**実際に出品して
+おかないと購入希望者がオファーを出せない**ので、公開前に Sedo 側の登録を済ませること。
 
-Formspree 以外でも、`multipart/form-data` の POST を受けて `Accept: application/json` に
-JSON を返すエンドポイントならそのまま動く（Basin、Getform、自前の Worker など）。
-別サービスを使う場合は `form.action` を組み立てている行を直接書き換える。
+Sedo を使う利点は、オファーの受付・代金のエスクロー・移管手続きまで仲介されること。
+ページにメールアドレスを出す必要がなく、直接交渉に伴うトラブルも避けられる。
 
-送信は `fetch` で行い、成功・失敗をページ内に表示する。JavaScript が無効な環境では
-通常のフォーム POST にフォールバックし、フォームサービス側のサンクスページに遷移する。
+別のマーケットプレイス（Afternic、Dan.com 等）に変えるなら、`index.html` の
+`class="cta"` の `href` を差し替え、3言語の `form_note` / `cta` / `cta_note` の文言を
+合わせて直す。
 
 ### 2. リポジトリに置いて Pages を有効化
 
@@ -89,6 +90,8 @@ GitHub 側で証明書が発行されたら Settings → Pages で **Enforce HTT
 - ライト／ダーク両対応。OS 設定に追従し、色はすべて `:root` のトークン経由。
 - 価格は金額を出さず「ご相談ください / Make an offer / 欢迎出价」。金額を出す場合は
   `rec_price_v` を3言語分書き換える。
+- **問い合わせは Sedo に委ねているので、サーバー側の受信処理もメールアドレスの記載も無い。**
+  ページは完全な静的ファイルで、JavaScript は言語切り替えだけに使っている。
 - フッターに「ここにあった分析ダッシュボードは livit17.net に移転しました」という
   一文を入れている。旧ドメインのブックマークが残っているため。不要なら
   `.former` の段落と `former` キーを消す。

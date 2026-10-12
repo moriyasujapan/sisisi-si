@@ -267,72 +267,27 @@ h2 {
 }
 .form-note { margin: 0 0 1.6rem; color: var(--muted); font-size: .95rem; max-width: var(--measure); }
 
-form { max-width: var(--measure); display: grid; gap: 1rem; }
+.cta-wrap { margin: 0 0 .9rem; }
 
-.field { display: grid; gap: .35rem; }
-label {
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
   font-family: var(--font-mono);
-  font-size: .7rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-input, textarea {
-  font: inherit;
-  font-size: .95rem;
-  color: var(--fg);
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  padding: .6rem .7rem;
-  width: 100%;
-  min-width: 0;
-}
-input:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  border-color: var(--accent);
-}
-textarea { resize: vertical; min-height: 7rem; }
-
-button.submit {
-  appearance: none;
-  font-family: var(--font-mono);
-  font-size: .8rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+  font-size: .9rem;
+  letter-spacing: .06em;
+  text-decoration: none;
   color: var(--bg);
   background: var(--fg);
   border: 1px solid var(--fg);
   border-radius: 2px;
-  padding: .75rem 1.3rem;
-  cursor: pointer;
-  justify-self: start;
+  padding: .85rem 1.4rem;
 }
-button.submit:hover { background: var(--accent); border-color: var(--accent); color: #11140f; }
-button.submit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-button.submit[disabled] { opacity: .55; cursor: default; }
+.cta:hover { background: var(--accent); border-color: var(--accent); color: #11140f; }
+.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cta-arrow { font-size: 1.05em; line-height: 1; }
 
-.formstate {
-  font-family: var(--font-mono);
-  font-size: .82rem;
-  padding: .7rem .8rem;
-  border: 1px solid var(--rule);
-  border-left: 3px solid var(--accent);
-  background: var(--surface);
-}
-
-.setup {
-  font-family: var(--font-mono);
-  font-size: .78rem;
-  line-height: 1.6;
-  padding: .8rem .9rem;
-  margin-bottom: 1.4rem;
-  border: 1px dashed var(--accent);
-  color: var(--fg);
-  background: var(--surface);
-}
-.setup code { background: transparent; font-weight: 600; }
+.cta-note { margin: 0; color: var(--muted); font-size: .85rem; max-width: var(--measure); }
 
 /* ---------- footer ---------- */
 
@@ -415,37 +370,18 @@ footer a:hover { text-decoration-color: var(--accent); }
   </section>
 
   <section aria-labelledby="inq">
-    <h2 id="inq" data-t="form_h">Make an offer</h2>
-    <p class="form-note" data-t="form_note">Send a note with your offer and a way to reach you.
-      Enquiries go straight to the owner. No broker, no listing fee.</p>
+    <h2 id="inq" data-t="form_h">Make an offer on Sedo</h2>
+    <p class="form-note" data-t="form_note">This domain is listed with Sedo, who handle the
+      offer, the payment and the transfer. Your offer goes through them, and the money is held
+      in escrow until the domain is in your account.</p>
 
-    <div class="setup" id="setup" hidden>
-      <strong>Setup needed.</strong> Replace <code>FORMSPREE_ID</code> in
-      <code>index.html</code> with your own form ID, or point the form at any endpoint that
-      accepts a POST. This notice only appears while the placeholder is still in place.
-    </div>
-
-    <form id="form" method="POST" novalidate>
-      <div class="field">
-        <label for="name" data-t="f_name">Name</label>
-        <input id="name" name="name" type="text" autocomplete="name" required>
-      </div>
-      <div class="field">
-        <label for="email" data-t="f_email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="offer" data-t="f_offer">Offer (optional)</label>
-        <input id="offer" name="offer" type="text" inputmode="numeric">
-      </div>
-      <div class="field">
-        <label for="message" data-t="f_msg">Message</label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-      <input type="hidden" name="_subject" value="sisisi.si — enquiry">
-      <button class="submit" type="submit" data-t="f_send">Send enquiry</button>
-      <p class="formstate" id="formstate" hidden role="status" aria-live="polite"></p>
-    </form>
+    <p class="cta-wrap">
+      <a class="cta" href="https://sedo.com/search/details/?domain=sisisi.si&amp;language=e"
+         target="_blank" rel="noopener"><span data-t="cta">Make an offer on Sedo</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span></a>
+    </p>
+    <p class="cta-note" data-t="cta_note">Opens sedo.com. You will need a Sedo account to
+      submit an offer — it is free to create.</p>
   </section>
 
   <footer>
@@ -463,9 +399,6 @@ footer a:hover { text-decoration-color: var(--accent); }
 (function () {
   "use strict";
 
-  /* Replace with your own Formspree form ID (https://formspree.io) — e.g. "xdkogqwe".
-     Any endpoint that accepts a POST works; see README.md. */
-  var FORMSPREE_ID = "FORMSPREE_ID";
 
   /* ---------- i18n ----------
      English lives in the HTML, so the page reads correctly with scripting off.
@@ -493,13 +426,10 @@ footer a:hover { text-decoration-color: var(--accent); }
       p2_b: "「si」はスペイン語とイタリア語で意味を持ち、繰り返しの形は日本語でも中国語でも発音しやすいままです。",
       p3_h: "実際に使える短さ",
       p3_b: "ドットを含めて9文字。アカウント名、QRコード、名刺、自前のURL短縮にも収まります。",
-      form_h: "価格をご提示ください",
-      form_note: "ご希望の金額とご連絡先を添えてお送りください。お問い合わせは所有者に直接届きます。仲介業者や掲載手数料はありません。",
-      f_name: "お名前",
-      f_email: "メールアドレス",
-      f_offer: "ご希望額（任意）",
-      f_msg: "ご用件",
-      f_send: "送信する",
+      form_h: "Sedo でお申し込みください",
+      form_note: "このドメインは Sedo に掲載しています。お申し込み・ご入金・移管の手続きは Sedo が仲介します。代金はドメインがお客様のアカウントに移るまでエスクローで保全されます。",
+      cta: "Sedo で価格を提示する",
+      cta_note: "sedo.com が開きます。お申し込みには Sedo のアカウントが必要です（無料で作成できます）。",
       former: "ここにあった分析ダッシュボードをお探しですか？ 移転先はこちらです：",
       legal: "sisisi.si — 個人所有。第三者との関係はありません"
     },
@@ -525,13 +455,10 @@ footer a:hover { text-decoration-color: var(--accent); }
       p2_b: "“si”在西班牙语和意大利语中都有含义，重复的结构在日语和中文里同样容易发音。",
       p3_h: "短到真的能用",
       p3_b: "含点号共九个字符。用作账号名、二维码、名片，或自建短链接都放得下。",
-      form_h: "欢迎出价",
-      form_note: "请留下您的出价和联系方式。咨询将直接发送给所有者。没有中介，也没有挂牌费。",
-      f_name: "姓名",
-      f_email: "邮箱",
-      f_offer: "出价（选填）",
-      f_msg: "留言",
-      f_send: "发送咨询",
+      form_h: "通过 Sedo 出价",
+      form_note: "本域名已在 Sedo 挂牌。出价、付款与过户均由 Sedo 居间办理。款项将由第三方托管，直至域名转入您的账户。",
+      cta: "在 Sedo 出价",
+      cta_note: "将跳转至 sedo.com。出价需要 Sedo 账户，注册免费。",
       former: "在找原本这里的数据分析面板吗？已迁移至：",
       legal: "sisisi.si — 私人持有，与任何第三方无关"
     }
@@ -577,70 +504,6 @@ footer a:hover { text-decoration-color: var(--accent); }
   }
   if (start && start !== "en") { apply(start); }
 
-  /* ---------- form ---------- */
-
-  var form  = document.getElementById("form");
-  var state = document.getElementById("formstate");
-  var setup = document.getElementById("setup");
-  var send  = form.querySelector("button.submit");
-
-  var configured = FORMSPREE_ID !== "FORMSPREE" + "_ID" && FORMSPREE_ID !== "";
-  if (!configured) {
-    setup.hidden = false;
-  } else {
-    form.action = "https://formspree.io/f/" + FORMSPREE_ID;
-  }
-
-  var MSG = {
-    en: { sending: "Sending…", ok: "Thank you. Your enquiry has been sent.",
-          fail: "That didn't send. Please try again in a moment.",
-          invalid: "Please fill in your name, email and message.",
-          unset:   "The form isn't connected yet. See README.md." },
-    ja: { sending: "送信中…", ok: "ありがとうございます。お問い合わせを送信しました。",
-          fail: "送信できませんでした。少し時間をおいて再度お試しください。",
-          invalid: "お名前・メールアドレス・ご用件をご記入ください。",
-          unset:   "フォームが未接続です。README.md をご確認ください。" },
-    zh: { sending: "发送中…", ok: "感谢您的咨询，已成功发送。",
-          fail: "发送失败，请稍后重试。",
-          invalid: "请填写姓名、邮箱和留言。",
-          unset:   "表单尚未连接，请参阅 README.md。" }
-  };
-
-  function current() {
-    var pressed = buttons.filter(function (b) { return b.getAttribute("aria-pressed") === "true"; })[0];
-    return (pressed && pressed.getAttribute("data-lang")) || "en";
-  }
-  function say(key) {
-    state.hidden = false;
-    state.textContent = (MSG[current()] || MSG.en)[key];
-  }
-
-  form.addEventListener("submit", function (ev) {
-    ev.preventDefault();
-
-    if (!form.name.value.trim() || !form.email.value.trim() || !form.message.value.trim()) {
-      say("invalid");
-      return;
-    }
-    if (!configured) { say("unset"); return; }
-
-    say("sending");
-    send.disabled = true;
-
-    fetch(form.action, {
-      method: "POST",
-      body: new FormData(form),
-      headers: { Accept: "application/json" }
-    }).then(function (res) {
-      if (!res.ok) { throw new Error("http " + res.status); }
-      form.reset();
-      say("ok");
-    }).catch(function () {
-      say("fail");
-    }).then(function () {
-      send.disabled = false;
-    });
-  });
 })();
 </script>
 </body>
