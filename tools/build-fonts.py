@@ -27,6 +27,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGE = ROOT / "index.html"
 OUT = ROOT / "fonts"
 
+UI_LABEL_CHARS = "日本語中文"
+
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36")
 
@@ -107,6 +109,9 @@ def main():
         ("Noto Sans JP", 500, cs["latin"] + cs["ja"], "notojp-500"),
         ("Noto Sans SC", 400, cs["latin"] + cs["zh"], "notosc-400"),
         ("Noto Sans SC", 500, cs["latin"] + cs["zh"], "notosc-500"),
+        # 言語切替ボタンのラベル専用。英語表示では CJK 本体を読み込まないので、
+        # この5文字だけの極小フォントが無いとボタンが豆腐になる。
+        ("Noto Sans JP", 400, UI_LABEL_CHARS, "uilabels"),
     ]
 
     total = 0

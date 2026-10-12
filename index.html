@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>sisisi.si</title>
-<meta name="description" content="sisisi.si — a six-letter, three-beat domain available to acquire. Make an offer.">
+<meta name="description" content="sisisi.si — SI four times over, on the .si top-level domain. Available to acquire.">
 <meta property="og:title" content="sisisi.si">
-<meta property="og:description" content="A six-letter, three-beat domain available to acquire.">
+<meta property="og:description" content="SI four times over, on the .si top-level domain.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sisisi.si/">
 <link rel="canonical" href="https://sisisi.si/">
@@ -31,6 +31,10 @@
              font-display: swap; src: url(fonts/notosc-400.woff2) format("woff2"); }
 @font-face { font-family: "Noto Sans SC"; font-style: normal; font-weight: 500;
              font-display: swap; src: url(fonts/notosc-500.woff2) format("woff2"); }
+/* 言語切替ボタンのラベル（日本語・中文）だけを含む極小フォント。英語表示では
+   CJK 本体を読み込まないので、これが無いとボタンが豆腐になる。約1KB。 */
+@font-face { font-family: "UI Labels"; font-style: normal; font-weight: 400;
+             font-display: swap; src: url(fonts/uilabels.woff2) format("woff2"); }
 
 /* Layout: one narrow left-aligned column. The wordmark is the hero; a registry-record
    block carries the facts; the inquiry form closes the page. */
@@ -143,7 +147,10 @@ img { max-width: 100%; }
   border: 1px solid var(--rule);
   background: transparent;
   color: var(--muted);
-  font-family: var(--font-mono);
+  /* "UI Labels" を前に置く。--font-mono の末尾は monospace という総称
+     ファミリで必ずマッチするため、後ろに置くと到達しない。
+     欧文(EN)は UI Labels に無いので字ごとに Plex Mono へ落ちる。 */
+  font-family: "UI Labels", var(--font-mono);
   font-size: .72rem;
   letter-spacing: .08em;
   padding: .3rem .6rem;
@@ -323,10 +330,10 @@ footer a:hover { text-decoration-color: var(--accent); }
   <header>
     <p class="eyebrow" data-t="eyebrow">Available to acquire</p>
     <h1 class="wordmark">sisisi<span class="tld">.si</span></h1>
-    <p class="beats">si &middot; si &middot; si</p>
-    <p class="lede" data-t="lede">Six letters, three identical beats, and a two-letter top-level
-      domain. The whole name is one sound repeated — easy to say on a phone call, easy to
-      remember after hearing it once, and short enough to fit anywhere a name has to fit.</p>
+    <p class="beats">SI &middot; SI &middot; SI &middot; SI</p>
+    <p class="lede" data-t="lede">SI is shorthand for superintelligence. This name carries it
+      three times over, and the top-level domain is .si as well — four in all, inside nine
+      characters. There is no shorter way to say it.</p>
   </header>
 
   <section class="record" aria-label="Domain record">
@@ -340,8 +347,8 @@ footer a:hover { text-decoration-color: var(--accent); }
       <dt data-t="rec_len">Length</dt>
       <dd>6 <span data-t="rec_len_label">(label)</span> / 9 <span data-t="rec_len_full">(with TLD)</span></dd>
 
-      <dt data-t="rec_struct">Structure</dt>
-      <dd>si &times; 3 &mdash; <span data-t="rec_struct_v">one syllable, repeated</span></dd>
+      <dt data-t="rec_reading">Reads as</dt>
+      <dd>SI &times; 4 &mdash; <span data-t="rec_reading_v">superintelligence, repeated</span></dd>
 
       <dt data-t="rec_chars">Characters</dt>
       <dd data-t="rec_chars_v">a&ndash;z only. No digits, no hyphens.</dd>
@@ -353,19 +360,19 @@ footer a:hover { text-decoration-color: var(--accent); }
 
   <section class="points">
     <div class="point">
-      <h3 data-t="p1_h">Said, not spelled</h3>
-      <p data-t="p1_b">One repeated syllable survives being spoken aloud. There is nothing to
-        spell out and nothing to mishear.</p>
+      <h3 data-t="p1_h">SI means superintelligence</h3>
+      <p data-t="p1_b">The abbreviation the field already uses for itself. Here it is not part
+        of the name — it is the whole of it, four times over.</p>
     </div>
     <div class="point">
-      <h3 data-t="p2_h">Reads in several languages</h3>
-      <p data-t="p2_b">&ldquo;si&rdquo; carries meaning in Spanish and Italian, and the repeated
-        shape stays easy to pronounce in Japanese and Chinese.</p>
+      <h3 data-t="p2_h">Nine characters, nothing to explain</h3>
+        <p data-t="p2_b">si&middot;si&middot;si&middot;si. Nothing to spell out, nothing to
+        mishear, and the same sound in every market.</p>
     </div>
     <div class="point">
-      <h3 data-t="p3_h">Short enough to use</h3>
-      <p data-t="p3_b">Nine characters including the dot. It fits in a handle, a QR code, a
-        business card, or a URL shortener of its own.</p>
+      <h3 data-t="p3_h">The extension is being claimed</h3>
+      <p data-t="p3_b">AI companies have started moving onto .si, the way the last wave moved
+        onto .ai. The short names go first.</p>
     </div>
   </section>
 
@@ -407,25 +414,25 @@ footer a:hover { text-decoration-color: var(--accent); }
     ja: {
       status: "ドメイン売却",
       eyebrow: "お譲りします",
-      lede: "6文字、同じ音の3拍、そして2文字のトップレベルドメイン。名前ぜんたいが一つの音の繰り返しなので、電話で伝えるのも、一度聞いて覚えるのも簡単です。名前を入れる場所がどれだけ狭くても収まります。",
+      lede: "SI は superintelligence の略号です。この名前はそれを3回重ね、トップレベルドメインもまた .si。合わせて4つの SI が9文字に収まっています。これより短い言い方はありません。",
       rec_domain: "ドメイン",
       rec_tld: "トップレベルドメイン",
       rec_tld_v: "スロベニア",
       rec_len: "文字数",
       rec_len_label: "（ラベル部）",
       rec_len_full: "（TLD込み）",
-      rec_struct: "構成",
-      rec_struct_v: "1音の3回繰り返し",
+      rec_reading: "読み",
+      rec_reading_v: "superintelligence の反復",
       rec_chars: "使用文字",
       rec_chars_v: "a〜zのみ。数字・ハイフンなし。",
       rec_price: "価格",
       rec_price_v: "ご相談ください",
-      p1_h: "綴らずに伝わる",
-      p1_b: "同じ音の繰り返しは、声に出しても崩れません。綴りを説明する必要も、聞き間違えられる余地もありません。",
-      p2_h: "複数の言語で読める",
-      p2_b: "「si」はスペイン語とイタリア語で意味を持ち、繰り返しの形は日本語でも中国語でも発音しやすいままです。",
-      p3_h: "実際に使える短さ",
-      p3_b: "ドットを含めて9文字。アカウント名、QRコード、名刺、自前のURL短縮にも収まります。",
+      p1_h: "SI は superintelligence",
+      p1_b: "この分野が自らを指すときに使う略号です。ここではそれが名前の一部ではなく、名前そのもの。しかも4つ重なっています。",
+      p2_h: "9文字、説明が要らない",
+      p2_b: "si・si・si・si。綴りを説明する必要も、聞き間違えられる余地もなく、どの市場でも同じ音で読まれます。",
+      p3_h: "いま押さえられつつある",
+      p3_b: "前の波が .ai に向かったように、AI 企業が .si に移り始めています。短い名前から順に埋まります。",
       form_h: "Sedo でお申し込みください",
       form_note: "このドメインは Sedo に掲載しています。お申し込み・ご入金・移管の手続きは Sedo が仲介します。代金はドメインがお客様のアカウントに移るまでエスクローで保全されます。",
       cta: "Sedo で価格を提示する",
@@ -436,25 +443,25 @@ footer a:hover { text-decoration-color: var(--accent); }
     zh: {
       status: "域名出售",
       eyebrow: "可转让",
-      lede: "六个字母，三个相同的音节，加上两个字母的顶级域名。整个名字就是同一个音的重复——电话里好说，听一次就记得住，再窄的位置也放得下。",
+      lede: "SI 是 superintelligence 的缩写。这个名字把它叠了三次，顶级域名也是 .si——合计四个 SI，只用九个字符。没有更短的说法了。",
       rec_domain: "域名",
       rec_tld: "顶级域名",
       rec_tld_v: "斯洛文尼亚",
       rec_len: "长度",
       rec_len_label: "（主体）",
       rec_len_full: "（含后缀）",
-      rec_struct: "结构",
-      rec_struct_v: "同一音节重复三次",
+      rec_reading: "读作",
+      rec_reading_v: "superintelligence 的重复",
       rec_chars: "字符",
       rec_chars_v: "仅 a–z。无数字、无连字符。",
       rec_price: "价格",
       rec_price_v: "欢迎出价",
-      p1_h: "说出口就行",
-      p1_b: "重复的音节经得起口头传达。不必逐字拼读，也不会听错。",
-      p2_h: "多种语言都好读",
-      p2_b: "“si”在西班牙语和意大利语中都有含义，重复的结构在日语和中文里同样容易发音。",
-      p3_h: "短到真的能用",
-      p3_b: "含点号共九个字符。用作账号名、二维码、名片，或自建短链接都放得下。",
+      p1_h: "SI 即 superintelligence",
+      p1_b: "这是该领域称呼自己时使用的缩写。在这里它不是名字的一部分，而就是名字本身，而且出现了四次。",
+      p2_h: "九个字符，无需解释",
+      p2_b: "si·si·si·si。不必逐字拼读，不会听错，在任何市场都读作同一个音。",
+      p3_h: "正在被抢占的后缀",
+      p3_b: "正如上一波涌向 .ai，AI 公司已开始转向 .si。短名字最先被拿走。",
       form_h: "通过 Sedo 出价",
       form_note: "本域名已在 Sedo 挂牌。出价、付款与过户均由 Sedo 居间办理。款项将由第三方托管，直至域名转入您的账户。",
       cta: "在 Sedo 出价",
